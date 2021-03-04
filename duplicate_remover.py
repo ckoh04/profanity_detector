@@ -8,7 +8,7 @@ def make_unique(data):
             f.write(word + "\n")
 
 def get_user_dic():
-    data= pd.read_csv('./user_after_duplication.csv', header=None)
+    data= pd.read_csv('./post_duplication.csv', header=None)
     return data
 
 if __name__ == "__main__":
