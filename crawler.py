@@ -91,7 +91,7 @@ def crawler():
     make_dataframe()
     # write_json(scrape_data, total_subreddit)
 
-
+#
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     crawler()
