@@ -1,21 +1,26 @@
+import nltk
 import praw
 import reddit_info
+from bs4 import BeautifulSoup
+import re
 import csv
 import time
 from datetime import datetime
-# import csv_to_sqlite
 from praw.models import MoreComments
 import mysql_conn
+import mariadb
+import sys
 import json
 import pandas as pd
-
+from nltk.corpus import stopwords
+from pandas import DataFrame
 pd.set_option("display.max_rows", None, "display.max_columns", None)
 
 CLIENT_ID = reddit_info.Reddit.client_id
 CLIENT_SECRET = reddit_info.Reddit.secret
 USER_AGENT = 'Chrome'
-SUB_REDDIT = 'tifu'
-LIMIT = 5
+SUB_REDDIT = 'tifu+The_Donald+worldnews+gonewild+nottheonion'
+LIMIT = 9999
 
 
 def scrape_reddit():
@@ -69,6 +74,19 @@ def write_csv(scrape_data, total_subreddit):
         for data in scrape_data:
             writer.writerow(data)
 
+def data_text_cleaning(data):
+    only_english = re.sub('[^a-zA-Z]', ' ', data)
+
+    no_capitals = only_english.lower().split()
+
+    stops = set(stopwords.words('english'))
+    no_stops = [word for word in no_capitals if not word in stops]
+
+    stemmer = nltk.stem.SnowballStemmer('english')
+    stemmer_words = [stemmer.stem(word) for word in no_stops]
+
+    return ' '.join(stemmer_words)
+
 
 def write_json(scrape_data, total_subreddit):
     with open(time.strftime("data.txt", time.localtime()), 'wt') as file:
@@ -81,8 +99,6 @@ def make_dataframe():
     # for _ in data:
 
     df = pd.DataFrame(data, columns=['date', 'title', 'body', 'comment_body'])
-    for dtype in df.dtypes.iteritems():
-        print(dtype)
     print(df)
 
 def crawler():
