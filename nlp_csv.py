@@ -25,7 +25,7 @@ df = pd.read_csv("data.csv")
 df.drop(columns="date")
 comment = df.loc[0, "comment_body"]
 
-df["comment_body"] = df["comment_body"].apply(lambda x: [sent.text for sent in nlp(x).sents])
+df["comment_body"] = df["comment_body"].apply(lambda x: [nlp_utils.data_text_cleaning(sent.text) for sent in nlp(x).sents])
 df = df.explode("comment_body", ignore_index=True)
 
 df.index.name = "comment_id"

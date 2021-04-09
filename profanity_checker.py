@@ -5,10 +5,10 @@ read_file.to_csv(r'unique_word_list.csv', index=False)
 
 def load_profanity():
     profanity_list = []
-    profanity_file = open('unique_word_list.csv', 'rb')
+    profanity_file = open('unique_word_list.csv', 'r', encoding="utf8")
 
     for word in profanity_file:
-        profanity_list.append(word.strip())
+        profanity_list.append(word.strip().replace(',', ""))
 
     return profanity_list
 
@@ -16,8 +16,7 @@ def load_profanity():
 profanities = load_profanity()
 profanities = set(profanities)
 print(profanities)
-print(len(profanities))
-with open("unique_word_list.csv")
+
 
 
 

@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 from pandas import DataFrame
 import csv
+
 import sys
 '''
 
@@ -34,10 +35,11 @@ def make_tok_comment_db():
     next(tokenized_comments)
     con = sqlite3.connect("comments_tokenized.db")
     con.execute("DROP TABLE tok_comments")
-    con.execute("CREATE TABLE IF NOT EXISTS tok_comments(comment_id, comment)")
+    con.execute("CREATE TABLE IF NOT EXISTS tok_comments(comment_id, comment, is_profanity INTEGER DEFAULT 0)")
     cur = con.cursor()
 
     con.executemany("INSERT INTO tok_comments(comment_id, comment) VALUES (?, ?)", ((rec[0], rec[4]) for rec in tokenized_comments))
+    con.execute("DELETE FROM tok_comments WHERE comment IS NULL OR trim(comment) = '';")
     con.commit()
 
 # make_data_db()
