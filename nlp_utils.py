@@ -1,5 +1,6 @@
 import spacy
 import re
+import emoji
 import nltk
 import en_core_web_sm
 # nlp = en_core_web_sm.load()
@@ -7,6 +8,7 @@ from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import TweetTokenizer
 from nltk import sent_tokenize
+from emoji import demojize
 from bs4 import BeautifulSoup
 from collections import Counter
 
@@ -43,19 +45,28 @@ contractions = {"aren't": "are not", "can't": "cannot", "couldn't": "could not",
 
 def data_text_cleaning(data):
     data = data.lower()
+
+    # emojis to characters
+    data = demojize(data)
+
     # mention in write up that I am removing single letters since it is hard to decide either if it is text-in-speech or \n/etc.
     # escape characters (python mechanism [regex] to remove escape characters from text)
     data = data.strip()
+
     data = data.replace("\\", " ")
-    data = re.sub('[^a-zA-Z0-9]', ' ', data)
 
     # remove newlines
     data = re.sub('\\n', '', data)
 
+    data = re.sub(r'(\r\n.?)+', r'\r\n', data)
+
+    data = re.sub('[^a-zA-Z0-9]', ' ', data)
+
     # remove ip address (if exists)
     data = re.sub('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', '', data)
 
-    data = tokenizer.tokenize(data)
+    # data = tokenizer.tokenize(data)
+    data = sent_tokenize(data)
     data = [contractions[word] if word in contractions else word for word in data]
     data = [lemmatizer.lemmatize(word, "v") for word in data]
     no_stops = [word for word in data if not word in stops]
@@ -64,23 +75,6 @@ def data_text_cleaning(data):
     stemmer_words = [stemmer.stem(word) for word in no_stops]
 
     return ' '.join(stemmer_words)
-
-'''
-def tokenizer():
-    text_chunk = open('data.csv', encoding="utf8").read()
-    new_chunk = data_text_cleaning(text_chunk)
-    nlp_text = nlp(new_chunk)
-    print(nlp_text)
-    # sentences = sent_tokenize(nlp_text)
-    # print(sentences[0])
-
-    # with open('./tokenized_data.csv', 'w', encoding='utf-8') as f:
-    #    for word in nlp_text:
-    #        f.write(word.text + " " + word.pos_ + " " + word.dep  "\n")
-
-'''
-
-# def token_is_profane()
 
 def clean_profane_wordlist():
     word_list = open('profanities.txt', encoding="utf8").read()
@@ -101,16 +95,17 @@ def remove_duplicate():
 if __name__ == "__main__":
     reddit_data = open('data.csv', encoding="utf8").read()
     profanity_list = open('profanities.txt', encoding="utf8").read()
-    print(data_text_cleaning(reddit_data))
+    data_to_save = (data_text_cleaning(reddit_data))
+    print((data_text_cleaning(reddit_data)))
     with open('./cleaned_data.txt', "w", encoding="utf8") as file:
-        file.write(data_text_cleaning(reddit_data))
+        file.write(data_to_save)
+
+
+
 
     #clean_profane_wordlist()
     #remove_duplicate()
 
-
-
-    #tokenizer()
 
 
 

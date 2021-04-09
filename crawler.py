@@ -20,7 +20,7 @@ CLIENT_ID = reddit_info.Reddit.client_id
 CLIENT_SECRET = reddit_info.Reddit.secret
 USER_AGENT = 'Chrome'
 SUB_REDDIT = 'tifu+The_Donald+worldnews+gonewild+nottheonion'
-LIMIT = 100
+LIMIT = 99999
 
 
 def scrape_reddit():
@@ -99,3 +99,4 @@ def crawler():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     crawler()
+

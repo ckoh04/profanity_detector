@@ -13,20 +13,18 @@ plt.show()
 
 
 
-
-'''
 def get_db_non_tok_data(conn):
-    data = pd.read_sql_table('crw_data', conn)
+    data = pd.read_sql_table('data', conn)
     return data
 
 def get_db_tok_data(conn):
     data = pd.read_sql_table('tokenized_data', conn)
     return data
 
-data = get_db_non_tok_data(conn)
-data_tok = get_db_tok_data(conn)
+#data = get_db_non_tok_data(conn)
+#data_tok = get_db_tok_data(conn)
 
-conn_server = mysql_conn_server()
+#conn_server = mysql_conn_server()
 data = get_db_non_tok_data(conn_server)
 data_tok = get_db_tok_data(conn_server)
 
@@ -52,4 +50,3 @@ print("minimum length : ", np.min(data_length))
 print("maximum length : ", np.max(data_length))
 print("average length : ", np.mean(data_length))
 data_tok.head()
-'''
