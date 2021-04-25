@@ -12,7 +12,7 @@ beautifulsoup4~=4.9.3
 spacy~=2.3.5
 emoji~=1.2.0
 PyMySQL~=1.0.2
-Keras~=2.2.5
 tf-nightly==2.5.0.dev20210110
 CUDA=11.0.3_451.882_win10
 cudnn=11.0-windows-x64-v8.0.4.30
+Keras~=2.2.5

@@ -63,14 +63,14 @@ def make_tokenized_commentfocused_db():
 
 def make_comment_db():
 
-    comments = csv.reader(open("comments.csv", encoding="utf8"))
+    comments = csv.reader(open("sorted_comments.csv", encoding="utf8"))
     next(comments)
-    con = sqlite3.connect("comments.db")
+    con = sqlite3.connect("sorted_comments.db")
     con.execute("DROP TABLE comments")
     con.execute("CREATE TABLE IF NOT EXISTS comments(comment_id, comment, is_profanity)")
     cur = con.cursor()
 
-    con.executemany("INSERT INTO comments(comment_id, comment, is_profanity) VALUES (?, ?, ?)", ((rec[0], rec[4], rec[5]) for rec in comments))
+    con.executemany("INSERT INTO comments(comment_id, comment, is_profanity) VALUES (?, ?, ?)", ((rec[1], rec[5], rec[6]) for rec in comments))
     con.execute("DELETE FROM comments WHERE comment IS NULL OR trim(comment) = '';")
     con.commit()
     con.close()
@@ -78,14 +78,14 @@ def make_comment_db():
 
 def make_tok_comment_db():
 
-    tokenized_comments = csv.reader(open("comments_tokenized.csv", encoding="utf8"))
+    tokenized_comments = csv.reader(open("sorted_tokenized_comments.csv", encoding="utf8"))
     next(tokenized_comments)
-    con = sqlite3.connect("comments_tokenized.db")
+    con = sqlite3.connect("sorted_tokenized_comments.db")
     con.execute("DROP TABLE tok_comments")
     con.execute("CREATE TABLE IF NOT EXISTS tok_comments(comment_id, comment, is_profanity)")
     cur = con.cursor()
 
-    con.executemany("INSERT INTO tok_comments(comment_id, comment, is_profanity) VALUES (?, ?, ?)", ((rec[0], rec[4], rec[5]) for rec in tokenized_comments))
+    con.executemany("INSERT INTO tok_comments(comment_id, comment, is_profanity) VALUES (?, ?, ?)", ((rec[1], rec[5], rec[6]) for rec in tokenized_comments))
     con.execute("DELETE FROM tok_comments WHERE comment IS NULL OR trim(comment) = '';")
     con.commit()
     con.close()

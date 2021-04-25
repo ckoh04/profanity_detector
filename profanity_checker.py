@@ -1,9 +1,14 @@
 import pandas as pd
 import numpy
+from collections.abc import Iterable
 import sqlite3
 
-read_file = pd.read_csv(r'unique_word_list.txt')
-read_file.to_csv(r'unique_word_list.csv', index=False)
+
+pd.set_option('display.max_rows', 100)
+read_file = pd.read_csv(r'unique_word_list.csv')
+# read_file.to_csv(r'unique_word_list.csv', index=False)
+df = pd.read_csv("comments.csv")
+tokenized_df = pd.read_csv("comments_tokenized.csv")
 
 def load_profanity():
     profanity_list = []
@@ -14,6 +19,22 @@ def load_profanity():
 
     return profanity_list
 
+profanity = load_profanity()
+print(profanity)
+# print(df.columns)
+
+
+# df.loc[df['comment_body'].apply(lambda x: any([k in x for k in profanity])), 'is_profanity'] = 1
+# print(df.head())
+# df.to_csv("sorted_comments.csv")
+
+tokenized_df.loc[df['comment_body'].apply(lambda x: any([k in x for k in profanity])), 'is_profanity'] = "yes"
+tokenized_df.to_csv("sorted_tokenized_comments.csv")
+#print(df.head())
+
+
+
+'''
 def check_commentdb(profanities):
     df = pd.read_csv("")
 
@@ -28,6 +49,7 @@ def check_tokenizedcommentdb(profanities):
 
 
 def check_profanity():
+    
     profanities = load_profanity()
     profanities = set(profanities)
     #print(type(profanities))
@@ -35,7 +57,6 @@ def check_profanity():
 
 check_profanity()
 
-
-
+'''
 
 
