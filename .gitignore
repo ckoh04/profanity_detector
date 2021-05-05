@@ -1,2 +1,24 @@
 # Project exclude paths
 /venv/
+reddit_info.py
+data.csv
+data.db
+cleaned_data.txt
+predictions.csv
+profanity_LSTM
+sample_submission.csv
+sorted_tokenized_comments.csv
+sorted_comments.csv
+sorted_comments.db
+sorted_tokenized_comments.db
+unique_word_list.csv
+unique_word_list.txt
+word_list.txt
+tokenized_data.csv
+suspicious_reddit.pdf
+arial.ttf
+check_gpu.py
+comments.csv
+comments.db
+comments_tokenized.csv
+comments_tokenized.db

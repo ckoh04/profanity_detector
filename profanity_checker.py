@@ -21,19 +21,17 @@ def load_profanity():
 
 profanity = load_profanity()
 print(profanity)
-# print(df.columns)
-
-
-# df.loc[df['comment_body'].apply(lambda x: any([k in x for k in profanity])), 'is_profanity'] = 1
-# print(df.head())
-# df.to_csv("sorted_comments.csv")
 
 tokenized_df.loc[df['comment_body'].apply(lambda x: any([k in x for k in profanity])), 'is_profanity'] = "yes"
 tokenized_df.to_csv("sorted_tokenized_comments.csv")
+
 #print(df.head())
 
 
-
+# print(df.columns)
+# df.loc[df['comment_body'].apply(lambda x: any([k in x for k in profanity])), 'is_profanity'] = 1
+# print(df.head())
+# df.to_csv("sorted_comments.csv")
 '''
 def check_commentdb(profanities):
     df = pd.read_csv("")

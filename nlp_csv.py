@@ -47,7 +47,7 @@ def create_tokenized_comment_csv():
 
     df.to_csv("comments_tokenized.csv")
 
-create_comment_csv()
-#create_tokenized_comment_csv()
+#create_comment_csv()
+create_tokenized_comment_csv()
 
 

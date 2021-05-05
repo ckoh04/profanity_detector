@@ -1,17 +1,11 @@
 import spacy
 import re
-import emoji
 import nltk
-import en_core_web_sm
-# nlp = en_core_web_sm.load()
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import TweetTokenizer
 from nltk import sent_tokenize
 from emoji import demojize
-from bs4 import BeautifulSoup
-from collections import Counter
-
 #nltk.download('wordnet')
 #nltk.download('punkt')
 #nltk.download('stopwords')
@@ -49,9 +43,13 @@ def data_text_cleaning(data):
     # emojis to characters
     data = demojize(data)
 
-    # mention in write up that I am removing single letters since it is hard to decide either if it is text-in-speech or \n/etc.
     # escape characters (python mechanism [regex] to remove escape characters from text)
     data = data.strip()
+    data = data.rstrip("\r")
+    data = data.rstrip("\n")
+    data = data.rstrip("\n\n")
+    data = data.rstrip("\r\n")
+    data = data.rstrip("\t")
 
     data = data.replace("\\", " ")
 
@@ -71,10 +69,9 @@ def data_text_cleaning(data):
     data = [lemmatizer.lemmatize(word, "v") for word in data]
     no_stops = [word for word in data if not word in stops]
 
-    stemmer = nltk.stem.SnowballStemmer('english')
-    stemmer_words = [stemmer.stem(word) for word in no_stops]
 
-    return ' '.join(stemmer_words)
+
+    return ' '.join(no_stops)
 
 def clean_profane_wordlist():
     word_list = open('profanities.txt', encoding="utf8").read()
@@ -106,7 +103,8 @@ if __name__ == "__main__":
     #clean_profane_wordlist()
     #remove_duplicate()
 
-
+    #stemmer = nltk.stem.SnowballStemmer('english')
+    #stemmer_words = [stemmer.stem(word) for word in no_stops]
 
 
 '''

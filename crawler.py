@@ -1,19 +1,12 @@
-import nltk
 import praw
 import reddit_info
-from bs4 import BeautifulSoup
-import re
 import csv
 import time
 from datetime import datetime
 from praw.models import MoreComments
-import mysql_conn
-import mariadb
-import sys
 import json
 import pandas as pd
-from nltk.corpus import stopwords
-from pandas import DataFrame
+
 pd.set_option("display.max_rows", None, "display.max_columns", None)
 
 CLIENT_ID = reddit_info.Reddit.client_id
@@ -75,17 +68,8 @@ def write_csv(scrape_data, total_subreddit):
             writer.writerow(data)
 
 
-
-def write_json(scrape_data, total_subreddit):
-    with open(time.strftime("data.txt", time.localtime()), 'wt') as file:
-        texts = []
-        for _ in scrape_data:
-            texts.append(json.loads(next(file).strip()))
-
 def make_dataframe():
     data = pd.read_csv(r'data.csv')
-    # for _ in data:
-
     df = pd.DataFrame(data, columns=['date', 'title', 'body', 'comment_body'])
     print(df)
 
@@ -95,8 +79,6 @@ def crawler():
     make_dataframe()
     # write_json(scrape_data, total_subreddit)
 
-#
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     crawler()
 
