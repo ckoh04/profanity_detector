@@ -43,6 +43,7 @@ print("Average Length: ", np.mean(data_length))
 word_cloud = WordCloud(width = 800, height = 600, font_path = 'arial.ttf', background_color= 'white').generate(" ".join(tokenized_data['comment']))
 plt.figure(figsize=(20, 15))
 plt.imshow(word_cloud)
+plt.title("Frequent Words by Font Size", fontsize=22)
 plt.show()
 
 con.close()

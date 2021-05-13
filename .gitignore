@@ -22,3 +22,4 @@ comments.csv
 comments.db
 comments_tokenized.csv
 comments_tokenized.db
+data_inspector.py
